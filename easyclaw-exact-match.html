@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Million Claw | 您的零配置桌面端AI智能体（基于OpenClaw）</title>
+    
+    <!-- 网站图标 -->
+    <link rel="icon" type="image/svg+xml" href="./icons/favicon-16x16-new.svg">
+    <link rel="icon" type="image/svg+xml" href="./icons/favicon-32x32-new.svg" sizes="32x32">
+    <link rel="icon" type="image/svg+xml" href="./icons/favicon-64x64-new.svg" sizes="64x64">
+    <link rel="icon" type="image/png" href="./icons/million-claw-logo.png" sizes="256x256">
+    <link rel="apple-touch-icon" href="./icons/million-claw-logo.png">
+    <link rel="manifest" href="./icons/site.webmanifest">
+    <meta name="theme-color" content="#2563eb">
+    
+    <!-- EasyClaw使用的字体和样式 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* EasyClaw的CSS样式 - 完全复制 */
+        :root {
+            --color-primary: #2563eb;
+            --color-primary-dark: #1d4ed8;
+            --color-secondary: #10b981;
+            --color-dark: #1f2937;
+            --color-light: #f9fafb;
+            --color-gray: #6b7280;
+            --color-gray-light: #e5e7eb;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: var(--color-dark);
+            line-height: 1.6;
+            background: white;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* 导航栏 - EasyClaw样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 16px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: var(--color-dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.2s;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: var(--color-primary);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--color-primary);
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-button {
+            background: var(--color-primary);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+        }
+        
+        .nav-button:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+        }
+        
+        /* 英雄区域 - EasyClaw样式 */
+        .hero {
+            padding: 180px 0 120px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: cover;
+        }
+        
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-subtitle {
+            font-size: 20px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* 核心特性区域 - EasyClaw样式 */
+        .features-section {
+            padding: 100px 0;
+            background: var(--color-light);
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 60px;
+            color: var(--color-dark);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            margin-bottom: 24px;
+        }
+        
+        .feature-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--color-dark);
+        }
+        
+        .feature-desc {
+            color: var(--color-gray);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+        
+        /* 平台集成 - EasyClaw样式 */
+        .platforms-section {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .platforms-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+        
+        .platform {
+            background: var(--color-light);
+            padding: 20px;
+            border-radius: 12px;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .platform:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+        
+        .platform-icon {
+            font-size: 32px;
+        }
+        
+        .platform-name {
+            font-weight: 500;
+            color: var(--color-dark);
+            font-size: 14px;
+        }
+        
+        /* 使用场景 - EasyClaw样式 */
+        .use-cases-section {
+            padding: 100px 0;
+            background: var(--color-light);
+        }
+        
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .use-case {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        
+        .use-case:hover {
+            background: var(--color-light);
+            border-color: var(--color-gray-light);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .use-case-text {
+            font-weight: 500;
+            color: var(--color-dark);
+            font-size: 14px;
+        }
+        
+        /* 性能展示 - EasyClaw样式 */
+        .performance-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            color: white;
+        }
+        
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .performance-item {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .performance-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--color-secondary);
+        }
+        
+        .performance-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .performance-desc {
+            opacity: 0.8;
+            line-height: 1.7;
+        }
+        
+        /* 页脚 - EasyClaw样式 */
+        .footer {
+            background: var(--color-dark);
+            color: white;
+            padding: 80px 0 40px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-link {
+            color: var(--color-gray-light);
+            text-decoration: none;
+            margin-bottom: 12px;
+            display: block;
+            transition: color 0.2s;
+            font-size: 14px;
+        }
+        
+        .footer-link:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--color-gray);
+            font-size: 14px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .section-title {
+                font-size: 32px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .platforms-grid {
+                gap: 20px;
+            }
+            
+            .use-cases-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">MC</div>
+                Million Claw
+            </a>
+            
+            <div class="nav-links">
+                <a href="#features" class="nav-link">特性</a>
+                <a href="#platforms" class="nav-link">平台集成</a>
+                <a href="#use-cases" class="nav-link">使用场景</a>
+                <a href="#performance" class="nav-link">性能</a>
+                <a href="#download" class="nav-button">立即下载</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="hero" id="download">
+        <div class="container">
+            <h1 class="fade-in-up">基于 OpenClaw 框架打造</h1>
+            <p class="hero-subtitle fade-in-up">
+                一键安装，免除繁琐配置，集成各家顶级模型。隐私至上，原生桌面体验，低配置门槛。
+            </p>
+            
+            <div style="margin-top: 40px;" class="fade-in-up">
+                <a href="./Million-Claw-Windows-Deployment.zip" class="nav-button" style="font-size: 18px; padding: 16px 32px;" download="Million-Claw-Windows-Deployment.zip">
+                    <i class="fab fa-windows" style="margin-right: 8px;"></i>
+                    Windows 下载
+                </a>
+                <a href="./Million-Claw-macOS-Deployment.zip" class="nav-button" style="font-size: 18px; padding: 16px 32px; margin-left: 16px;" download="Million-Claw-macOS-Deployment.zip">
+                    <i class="fab fa-apple" style="margin-right: 8px;"></i>
+                    macOS 下载
+                </a>
+            </div>
+            
+            <div style="margin-top: 40px; max-width: 500px; margin-left: auto; margin-right: auto;" class="fade-in-up">
+                <div style="background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 12px; backdrop-filter: blur(10px);

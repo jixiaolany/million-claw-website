@@ -1,0 +1,18 @@
+网站文件路径：
+C:\Users\关\.openclaw\workspace\deploy-website\GitHubPages部署\index.html
+
+GitHub仓库地址：
+https://github.com/jixiaolany/your-app-website-githubpages
+
+上传步骤：
+1. 在GitHub仓库页面点击 "Add file" → "Upload files"
+2. 将上面的 index.html 文件拖拽到上传区域
+3. 填写提交信息："Initial commit - 一键部署网站"
+4. 点击 "Commit changes"
+5. 进入 Settings → Pages
+6. 设置 Branch: main, Folder: / (root)
+7. 点击 Save
+8. 等待1-2分钟，获得公开网址
+
+预计公开网址：
+https://jixiaolany.github.io/your-app-website-githubpages/

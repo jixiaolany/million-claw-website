@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>测试页面 - Million Claw</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        h1 { color: #2563eb; }
+        .success { color: #10b981; font-size: 24px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>✅ Million Claw 网站测试</h1>
+    <div class="success">GitHub Pages 部署成功！</div>
+    <p>如果看到这个页面，说明网站部署成功。</p>
+    <p>主网站: <a href="index.html">index.html</a></p>
+    <p>当前时间: <span id="time"></span></p>
+    <script>
+        document.getElementById('time').textContent = new Date().toLocaleString();
+    </script>
+</body>
+</html>

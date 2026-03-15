@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Million Claw | 您的零配置桌面端AI智能体（基于OpenClaw）</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --gray-light: #e5e7eb;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            background: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 16px 0;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        .nav-button {
+            background: var(--primary);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        
+        .nav-button:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* 英雄区域 */
+        .hero {
+            padding: 160px 0 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+        
+        .hero-subtitle {
+            font-size: 20px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        
+        .download-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        
+        .download-btn {
+            background: white;
+            color: var(--primary);
+            padding: 16px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .download-icon {
+            font-size: 24px;
+        }
+        
+        .invite-code-section {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .invite-code-title {
+            font-size: 18px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .invite-code-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .invite-code-input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .invite-code-note {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        /* 特性区域 */
+        .features {
+            padding: 100px 0;
+            background: var(--light);
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 60px;
+            color: var(--dark);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            margin-bottom: 24px;
+        }
+        
+        .feature-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+        
+        .feature-desc {
+            color: var(--gray);
+            line-height: 1.7;
+        }
+        
+        /* 使用场景 */
+        .use-cases {
+            padding: 100px 0;
+        }
+        
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+        
+        .use-case {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: background 0.2s;
+        }
+        
+        .use-case:hover {
+            background: var(--gray-light);
+        }
+        
+        .use-case-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+            color: var(--primary);
+        }
+        
+        .use-case-text {
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        /* 定价区域 */
+        .pricing {
+            padding: 100px 0;
+            background: var(--light);
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .pricing-card {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+            position: relative;
+        }
+        
+        .pricing-card.featured {
+            border: 2px solid var(--primary);
+            transform: scale(1.05);
+        }
+        
+        .pricing-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .pricing-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .pricing-price {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        
+        .pricing-period {
+            color: var(--gray);
+            margin-bottom: 32px;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+        
+        .pricing-feature {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray-light);
+            color: var(--gray);
+        }
+        
+        .pricing-feature:last-child {
+            border-bottom: none;
+        }
+        
+        .pricing-button {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+        }
+        
+        .pricing-button:hover {
+            background: var(--primary-dark);
+        }
+        
+        .pricing-button.secondary {
+            background: var(--gray-light);
+            color: var(--dark);
+        }
+        
+        .pricing-button.secondary:hover {
+            background: var(--gray);
+            color: white;
+        }
+        
+        /* 页脚 */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 80px 0 40px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-link {
+            color: var(--gray-light);
+            text-decoration: none;
+            margin-bottom: 12px;
+            display: block;
+            transition: color 0.2s;
+        }
+        
+        .footer-link:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: var(--gray);
+            font-size: 14px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .download-btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .pricing-card.featured {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">MC</div>
+                Million Claw
+            </a>
+            
+            <div class="nav-links">
+                <a href="#features" class="nav-link">特性</a>
+                <a href="#use-cases" class="nav-link">使用场景</a>
+                <a href="#pricing" class="nav-link">定价</a>
+                <a href="#download" class="nav-button">立即下载</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="hero" id="download">
+        <div class="container">
+            <h1>基于 OpenClaw 框架打造</h1>
+            <p class="hero-subtitle">
+                一键安装，免除繁琐配置，集成各家顶级模型。隐私至上，原生桌面体验，低配置门槛。
+            </p>
+            
+            <div class="download-buttons">
+                <a href="#" class="download-btn" id="windows-download">
+                    <span class="download-icon">🪟</span>
+                    Windows 下载
+                </a>
+                <a href="#" class="download-btn" id="mac-download">
+                    <span class="download-icon">🍎</span>
+                    macOS 下载
+                </a>
+            </div>
+            
+            <div class="invite-code-section">
+                <div class="invite-code-title">需要邀请码或付费</div>
+                <input type="text" class="invite-code-input" placeholder="请输入邀请码（如有）" id="invite-code">
+                <div class="invite-code-note">
+                    * 如果没有邀请码，请选择付费版本。邀请码由管理员发放。
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 特性区域 -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">核心特性</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">隐私至上</h3>
+                    <p class="feature-desc">
+                        AI功能通过安全云连接进行处理后，自动化操作将在本地执行，指令仅在您的专属环境中执行，致力于保护用户数据隐私。
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">💻</div>
+                    <h3 class="feature-title">原生桌面体验</h3>
+                    <p class="feature-desc">
+                        Million Claw 能像人类一样与系统级 UI 和 Web 应用进行自然交互，原生驱动您的操作系统。
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">低配置门槛</h3>
+                    <p class="feature-desc">
+                        真正的开箱即用。告别 Python、Docker 和繁杂的脚本。双击运行，即刻开启自动化工作流。
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">移动协同</h3>
+                    <p class="feature-desc">
+                        随时随地，掌控您的工作站。通过您常用的手机 App 远程下达指令，桌面端的自动化执行过程尽在掌握。
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3 class="feature-title">全平台无缝接入</h3>
+                    <p class="feature-desc">
+                        打破设备壁垒。Million Claw 将您在移动端的每一句自然交互，瞬间转化为电脑上的原生自动化操作。
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3 class="feature-title">安全无忧</h3>
+                    <p class="feature-desc">
+                        本地数据高安全性保障。拒绝云端风险。Million Claw 仅在您的本地沙盒中运行，视觉数据仅供模型实时分析。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 使用场景 -->
+    <section class="use-cases" id="use-cases">
+        <div class="container">
+            <h2 class="section-title">探索无限可能</h2>
+            <p style="text-align: center; color: var(--gray); max-width: 800px; margin: 0 auto 40px;">
+                一个 AI 助手，解锁上千种应用场景。用自然语言驱动工作流自动化。
+            </p>
+            
+            <div class="use-cases-grid">
+                <div class="use-case">
+                    <div class="use-case-icon">🌐</div>
+                    <div class="use-case-text">实时翻译</div>
+                </div>
+                <div class="use-case">
+                    <div class="use-case-icon">📧</div>
+                    <div class="use-case-text">邮件智能处理</div>
+                </div>
+                <div class="use-case">
+                    <div class="use-case-icon">🎫</div>
+                    <div class="use-case-text">工单回复</div>
+                </div>
+                <div class="use-case">
+                    <div class="use-case-icon">📄</div>
+                    <
