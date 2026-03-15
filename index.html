@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Million Claw - AI Desktop Assistant</title>
+    <title>Million Claw | 您的零配置桌面端AI智能体（基于OpenClaw�?/title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* 完全复制EasyClaw的CSS样式 */
         :root {
-            --blue: #2563eb;
-            --green: #10b981;
-            --dark: #1f2937;
-            --light: #f9fafb;
+            --color-primary: #2563eb;
+            --color-primary-dark: #1d4ed8;
+            --color-secondary: #10b981;
+            --color-dark: #1f2937;
+            --color-light: #f9fafb;
+            --color-gray: #6b7280;
+            --color-gray-light: #e5e7eb;
         }
         
         * {
@@ -20,27 +24,31 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            color: var(--dark);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: var(--color-dark);
             line-height: 1.6;
+            background: white;
+            overflow-x: hidden;
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
         
-        /* Navigation */
+        /* 导航�?- 完全复制 */
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             z-index: 1000;
-            padding: 15px 0;
+            padding: 16px 0;
+            transition: all 0.3s ease;
         }
         
         .nav-container {
@@ -51,128 +59,409 @@
         
         .logo {
             font-size: 24px;
-            font-weight: bold;
-            color: var(--blue);
+            font-weight: 700;
+            color: var(--color-primary);
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
         }
         
         .nav-links {
             display: flex;
-            gap: 30px;
+            gap: 32px;
+            align-items: center;
         }
         
         .nav-link {
-            color: var(--dark);
+            color: var(--color-dark);
             text-decoration: none;
             font-weight: 500;
+            font-size: 16px;
+            transition: color 0.2s;
+            position: relative;
         }
         
         .nav-link:hover {
-            color: var(--blue);
+            color: var(--color-primary);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--color-primary);
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
         }
         
         .nav-button {
-            background: var(--blue);
+            background: var(--color-primary);
             color: white;
             padding: 10px 24px;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
         }
         
-        /* Hero Section */
+        .nav-button:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+        }
+        
+        /* 英雄区域 - 完全复制 */
         .hero {
-            padding: 150px 0 100px;
+            padding: 180px 0 120px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: cover;
         }
         
         .hero h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            position: relative;
+            z-index: 1;
         }
         
-        .hero p {
+        .hero-subtitle {
             font-size: 20px;
+            opacity: 0.9;
             max-width: 600px;
             margin: 0 auto 40px;
-            opacity: 0.9;
-        }
-        
-        /* Features */
-        .features {
-            padding: 100px 0;
-            background: var(--light);
-        }
-        
-        .section-title {
-            text-align: center;
-            font-size: 36px;
-            margin-bottom: 50px;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .feature-card {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--blue);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        
-        .feature-title {
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-        
-        /* Download */
-        .download {
-            padding: 100px 0;
-            text-align: center;
+            position: relative;
+            z-index: 1;
         }
         
         .download-buttons {
             display: flex;
-            justify-content: center;
             gap: 20px;
-            margin-top: 30px;
+            justify-content: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
         }
         
         .download-btn {
-            background: var(--blue);
-            color: white;
-            padding: 15px 30px;
-            border-radius: 8px;
+            background: white;
+            color: var(--color-primary);
+            padding: 18px 36px;
+            border-radius: 12px;
             text-decoration: none;
-            font-weight: 500;
-            display: inline-flex;
+            font-weight: 600;
+            font-size: 18px;
+            display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            transition: all 0.3s;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         }
         
-        /* Footer */
-        .footer {
-            background: var(--dark);
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+        
+        .download-icon {
+            font-size: 24px;
+        }
+        
+        .invite-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 24px;
+            border-radius: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .invite-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .invite-input-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .invite-input {
+            flex: 1;
+            padding: 14px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
             color: white;
-            padding: 60px 0 30px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .invite-input:focus {
+            outline: none;
+            border-color: white;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .invite-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .invite-button {
+            background: var(--color-secondary);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        .invite-button:hover {
+            background: #0da271;
+            transform: translateY(-1px);
+        }
+        
+        .invite-note {
+            font-size: 14px;
+            opacity: 0.8;
+            text-align: center;
+        }
+        
+        /* 特性网�?- 完全复制 */
+        .features-grid {
+            padding: 100px 0;
+            background: var(--color-light);
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 60px;
+            color: var(--color-dark);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+        
+        .feature {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            margin-bottom: 24px;
+        }
+        
+        .feature-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--color-dark);
+        }
+        
+        .feature-desc {
+            color: var(--color-gray);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+        
+        /* 使用场景网格 - 完全复制 */
+        .use-cases {
+            padding: 100px 0;
+        }
+        
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+        
+        .use-case {
+            background: var(--color-light);
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        
+        .use-case:hover {
+            background: white;
+            border-color: var(--color-gray-light);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .use-case-icon {
+            font-size: 36px;
+            margin-bottom: 16px;
+            color: var(--color-primary);
+        }
+        
+        .use-case-text {
+            font-weight: 500;
+            color: var(--color-dark);
+            font-size: 16px;
+        }
+        
+        /* 平台集成 - 完全复制 */
+        .platforms {
+            padding: 80px 0;
+            background: var(--color-light);
+        }
+        
+        .platforms-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+        
+        .platform {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .platform:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+        
+        .platform-icon {
+            font-size: 32px;
+        }
+        
+        .platform-name {
+            font-weight: 500;
+            color: var(--color-dark);
+            font-size: 14px;
+        }
+        
+        /* 性能展示 - 完全复制 */
+        .performance {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            color: white;
+        }
+        
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .performance-item {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .performance-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--color-secondary);
+        }
+        
+        .performance-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .performance-desc {
+            opacity: 0.8;
+            line-height: 1.7;
+        }
+        
+        /* 页脚 - 完全复制 */
+        .footer {
+            background: var(--color-dark);
+            color: white;
+            padding: 80px 0 40px;
         }
         
         .footer-grid {
@@ -182,185 +471,501 @@
             margin-bottom: 40px;
         }
         
-        .copyright {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: #9ca3af;
+        .footer-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: white;
         }
         
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-link {
+            color: var(--color-gray-light);
+            text-decoration: none;
+            margin-bottom: 12px;
+            display: block;
+            transition: color 0.2s;
+            font-size: 14px;
+        }
+        
+        .footer-link:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--color-gray);
+            font-size: 14px;
+        }
+        
+        /* 响应式设�?*/
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 36px;
             }
             
-            .nav-links {
-                display: none;
+            .hero-subtitle {
+                font-size: 18px;
             }
             
             .download-buttons {
                 flex-direction: column;
                 align-items: center;
             }
+            
+            .download-btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .invite-input-group {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .section-title {
+                font-size: 32px;
+            }
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        /* 加载动画 */
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- 导航�?-->
     <nav class="navbar">
         <div class="container nav-container">
-            <a href="#" class="logo">Million Claw</a>
+            <a href="#" class="logo">
+                <div class="logo-icon">MC</div>
+                Million Claw
+            </a>
+            
             <div class="nav-links">
-                <a href="#features" class="nav-link">Features</a>
-                <a href="#download" class="nav-link">Download</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="#download" class="nav-button">Get Started</a>
+                <a href="#features" class="nav-link">特�?/a>
+                <a href="#use-cases" class="nav-link">使用场景</a>
+                <a href="#platforms" class="nav-link">平台集成</a>
+                <a href="#performance" class="nav-link">性能</a>
+                <a href="#download" class="nav-button">立即下载</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- 英雄区域 -->
     <section class="hero" id="download">
         <div class="container">
-            <h1>Built on OpenClaw Framework</h1>
-            <p>One-click installation, zero-configuration desktop AI agent. Privacy first, native experience, low barrier to use.</p>
-            <div class="download-buttons">
-                <a href="#" class="download-btn">
-                    <i class="fab fa-windows"></i> Windows Download
+            <h1 class="fade-in-up">基于 OpenClaw 框架打�?/h1>
+            <p class="hero-subtitle fade-in-up">
+                一键安装，免除繁琐配置，集成各家顶级模型。隐私至上，原生桌面体验，低配置门槛�?            </p>
+            
+            <div class="download-butt
+tons fade-in-up">
+                <a href="./Million-Claw-Windows-Deployment.zip" class="download-btn" id="windows-download" download="Million-Claw-Windows-Deployment.zip">
+                    <span class="download-icon"><i class="fab fa-windows"></i></span>
+                    Windows 下载
                 </a>
-                <a href="#" class="download-btn">
-                    <i class="fab fa-apple"></i> macOS Download
+                <a href="./Million-Claw-macOS-Deployment.zip" class="download-btn" id="mac-download" download="Million-Claw-macOS-Deployment.zip">
+                    <span class="download-icon"><i class="fab fa-apple"></i></span>
+                    macOS 下载
                 </a>
+            </div>
+            
+            <div class="invite-section fade-in-up">
+                <div class="invite-title">
+                    <i class="fas fa-key"></i>
+                    需要邀请码或付�?                </div>
+                <div class="invite-input-group">
+                    <input type="text" class="invite-input" placeholder="请输入邀请码（如有）" id="invite-code">
+                    <button class="invite-button" id="verify-invite">
+                        <span id="verify-text">验证邀请码</span>
+                        <span id="verify-loader" class="loader" style="display: none;"></span>
+                    </button>
+                </div>
+                <div class="invite-note">
+                    * 如果没有邀请码，请选择付费版本。邀请码由管理员发放�?                </div>
             </div>
         </div>
     </section>
 
-    <!-- Features -->
-    <section class="features" id="features">
+    <!-- 特性网�?-->
+    <section class="features-grid" id="features">
         <div class="container">
-            <h2 class="section-title">Core Features</h2>
-            <div class="features-grid">
-                <div class="feature-card">
+            <h2 class="section-title fade-in-up">核心特�?/h2>
+            
+            <div class="features">
+                <div class="feature fade-in-up">
                     <div class="feature-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h3 class="feature-title">Privacy First</h3>
-                    <p>AI functions are processed through secure cloud connections, while automation operations are executed locally to protect user data privacy.</p>
+                    <h3 class="feature-title">隐私至上</h3>
+                    <p class="feature-desc">
+                        AI功能通过安全云连接进行处理后，自动化操作将在本地执行，指令仅在您的专属环境中执行，致力于保护用户数据隐私�?                    </p>
                 </div>
                 
-                <div class="feature-card">
+                <div class="feature fade-in-up">
                     <div class="feature-icon">
                         <i class="fas fa-desktop"></i>
                     </div>
-                    <h3 class="feature-title">Native Desktop Experience</h3>
-                    <p>Interacts naturally with systems, UI, and web applications like a human, natively driving your operating system.</p>
+                    <h3 class="feature-title">原生桌面体验</h3>
+                    <p class="feature-desc">
+                        Million Claw 能像人类一样与系统�?UI �?Web 应用进行自然交互，原生驱动您的操作系统�?                    </p>
                 </div>
                 
-                <div class="feature-card">
+                <div class="feature fade-in-up">
                     <div class="feature-icon">
                         <i class="fas fa-bolt"></i>
                     </div>
-                    <h3 class="feature-title">Low Configuration Barrier</h3>
-                    <p>Truly out-of-the-box ready. Say goodbye to Python, Docker, and complex scripts. Double-click to run and start immediately.</p>
+                    <h3 class="feature-title">低配置门�?/h3>
+                    <p class="feature-desc">
+                        真正的开箱即用。告�?Python、Docker 和繁杂的脚本。双击运行，即刻开启自动化工作流�?                    </p>
                 </div>
                 
-                <div class="feature-card">
+                <div class="feature fade-in-up">
                     <div class="feature-icon">
                         <i class="fas fa-mobile-alt"></i>
                     </div>
-                    <h3 class="feature-title">Mobile Collaboration</h3>
-                    <p>Control your workstation anytime, anywhere. Issue remote commands through your favorite mobile apps while desktop automation executes.</p>
+                    <h3 class="feature-title">移动协同</h3>
+                    <p class="feature-desc">
+                        随时随地，掌控您的工作站。通过您常用的手机 App 远程下达指令，桌面端的自动化执行过程尽在掌握�?                    </p>
+                </div>
+                
+                <div class="feature fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3 class="feature-title">全平台无缝接�?/h3>
+                    <p class="feature-desc">
+                        打破设备壁垒。Million Claw 将您在移动端的每一句自然交互，瞬间转化为电脑上的原生自动化操作�?                    </p>
+                </div>
+                
+                <div class="feature fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3 class="feature-title">安全无忧</h3>
+                    <p class="feature-desc">
+                        本地数据高安全性保障。拒绝云端风险。Million Claw 仅在您的本地沙盒中运行，视觉数据仅供模型实时分析�?                    </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Download -->
-    <section class="download">
+    <!-- 使用场景 -->
+    <section class="use-cases" id="use-cases">
         <div class="container">
-            <h2 class="section-title">Download Now</h2>
-            <p>Choose your operating system version to start using Million Claw</p>
-            <div class="download-buttons">
-                <a href="./Million-Claw-Windows-Deployment.zip" class="download-btn" download>
-                    <i class="fab fa-windows"></i> Windows Version
-                </a>
-                <a href="./Million-Claw-macOS-Deployment.zip" class="download-btn" download>
-                    <i class="fab fa-apple"></i> macOS Version
-                </a>
+            <h2 class="section-title fade-in-up">探索无限可能</h2>
+            <p style="text-align: center; color: var(--color-gray); max-width: 800px; margin: 0 auto 40px;" class="fade-in-up">
+                一�?AI 助手，解锁上千种应用场景。用自然语言驱动工作流自动化�?            </p>
+            
+            <div class="use-cases-grid">
+                <div class="use-case fade-in-up">
+                    <div class="use-case-icon"><i class="fas fa-globe"></i></div>
+                    <div class="use-case-text">实时翻译</div>
+                </div>
+                <div class="use-case fade-in-up">
+                    <div class="use-case-icon"><i class="fas fa-envelope"></i></div>
+                    <div class="use-case-text">邮件智能处理</div>
+                </div>
+                <div class="use-case fade-in-up">
+                    <div class="use-case-icon"><i class="fas fa-ticket-alt"></i></div>
+                    <div class="use-case-text">工单回复</div>
+                </div>
+                <div class="use-case fade-in-up">
+                    <div class="use-case-icon"><i class="fas fa-file-alt"></i></div>
+                    <div class="use-case-text">文档总结</div>
+                </div>
+                <div class="use-case fade-in-up">
+                    <div class="use-case-icon"><i class="fas fa-calculator"></i></div>
+                    <div class="use-case-text">税务计算</div>
+                </div>
+                <div class="use-case fade-in-up">
+                    <div class="use-case-icon"><i class="fas fa-shopping-cart"></i></div>
+                    <div class="use-case-text">全网比价</div>
+                </div>
+                <div class="use-case fade-in-up">
+                    <div class="use-case-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="use-case-text">保险报价</div>
+                </div>
+                <div class="use-case fade-in-up">
+                    <div class="use-case-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="use-case-text">订阅管理</div>
+                </div>
+                <div class="use-case fade-in-up">
+                    <div class="use-case-icon"><i class="fas fa-tag"></i></div>
+                    <div class="use-case-text">全网搜券</div>
+                </div>
+                <div class="use-case fade-in-up">
+                    <div class="use-case-icon"><i class="fas fa-eye"></i></div>
+                    <div class="use-case-text">价格监控</div>
+                </div>
+                <div class="use-case fade-in-up">
+                    <div class="use-case-icon"><i class="fas fa-broom"></i></div>
+                    <div class="use-case-text">数据清洗</div>
+                </div>
+                <div class="use-case fade-in-up">
+                    <div class="use-case-icon"><i class="fas fa-code"></i></div>
+                    <div class="use-case-text">代码审查</div>
+                </div>
             </div>
-            <p style="margin-top: 20px; color: #6b7280; font-size: 14px;">
-                Invitation code or payment required. Valid codes: MILLION2026, CLAWPRO, OPENAI2026
-            </p>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer" id="about">
+    <!-- 平台集成 -->
+    <section class="platforms" id="platforms">
+        <div class="container">
+            <h2 class="section-title fade-in-up">全平台无缝接�?/h2>
+            <p style="text-align: center; color: var(--color-gray); max-width: 600px; margin: 0 auto 40px;" class="fade-in-up">
+                打破设备壁垒，通过您常用的平台远程控制您的桌面端�?            </p>
+            
+            <div class="platforms-grid">
+                <div class="platform fade-in-up">
+                    <div class="platform-icon" style="color: #25D366;">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <div class="platform-name">WhatsApp</div>
+                </div>
+                
+                <div class="platform fade-in-up">
+                    <div class="platform-icon" style="color: #0088cc;">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                    <div class="platform-name">Telegram</div>
+                </div>
+                
+                <div class="platform fade-in-up">
+                    <div class="platform-icon" style="color: #5865F2;">
+                        <i class="fab fa-discord"></i>
+                    </div>
+                    <div class="platform-name">Discord</div>
+                </div>
+                
+                <div class="platform fade-in-up">
+                    <div class="platform-icon" style="color: #4A154B;">
+                        <i class="fab fa-slack"></i>
+                    </div>
+                    <div class="platform-name">Slack</div>
+                </div>
+                
+                <div class="platform fade-in-up">
+                    <div class="platform-icon" style="color: #00B2FF;">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="platform-name">FEISHU</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 性能展示 -->
+    <section class="performance" id="performance">
+        <div class="container">
+            <h2 class="section-title fade-in-up">强劲性能 // 桌面级引�?/h2>
+            <p style="text-align: center; opacity: 0.8; max-width: 800px; margin: 0 auto 60px;" class="fade-in-up">
+                深入系统的掌控力。为您打造流畅的 AI 智能体验，在您的桌面环境中，保障UI 识别与操作执行低延迟，操作流畅�?            </p>
+            
+            <div class="performance-grid">
+                <div class="performance-item fade-in-up">
+                    <div class="performance-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h3 class="performance-title">高性能处理</h3>
+                    <p class="performance-desc">
+                        优化的算法和本地处理能力，确保AI任务快速响应，实时交互无延迟�?                    </p>
+                </div>
+                
+                <div class="performance-item fade-in-up">
+                    <div class="performance-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="performance-title">安全无忧 // 沙盒原生</h3>
+                    <p class="performance-desc">
+                        本地数据高安全性保障。拒绝云端风险。Million Claw 仅在您的本地沙盒中运行，视觉数据仅供模型实时分析�?                    </p>
+                </div>
+                
+                <div class="performance-item fade-in-up">
+                    <div class="performance-icon">
+                        <i class="fas fa-expand-alt"></i>
+                    </div>
+                    <h3 class="performance-title">系统级集�?/h3>
+                    <p class="performance-desc">
+                        深度集成操作系统，支持各种桌面应用和Web应用，提供真正的原生体验�?                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
         <div class="container">
             <div class="footer-grid">
-                <div>
+                <div class="footer-section">
                     <h3>Million Claw</h3>
-                    <p style="margin-top: 10px; opacity: 0.8;">
-                        Zero-configuration desktop AI agent built on the OpenClaw framework.
-                    </p>
+                    <p style="color: var(--color-gray-light); margin-bottom: 20px; font-size: 14px;">
+                        基于 OpenClaw 框架打造的零配置桌面端AI智能体，让自动化触手可及�?                    </p>
                 </div>
-                <div>
-                    <h3>Product</h3>
-                    <ul style="list-style: none; margin-top: 10px;">
-                        <li><a href="#features" style="color: white; text-decoration: none;">Features</a></li>
-                        <li><a href="#download" style="color: white; text-decoration: none;">Download</a></li>
+                
+                <div class="footer-section">
+                    <h3>产品</h3>
+                    <ul class="footer-links">
+                        <li><a href="#features" class="footer-link">特�?/a></li>
+                        <li><a href="#use-cases" class="footer-link">使用场景</a></li>
+                        <li><a href="#platforms" class="footer-link">平台集成</a></li>
+                        <li><a href="#performance" class="footer-link">性能</a></li>
                     </ul>
                 </div>
-                <div>
-                    <h3>Support</h3>
-                    <ul style="list-style: none; margin-top: 10px;">
-                        <li><a href="#" style="color: white; text-decoration: none;">Documentation</a></li>
-                        <li><a href="#" style="color: white; text-decoration: none;">FAQ</a></li>
+                
+                <div class="footer-section">
+                    <h3>支持</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">文档</a></li>
+                        <li><a href="#" class="footer-link">常见问题</a></li>
+                        <li><a href="#" class="footer-link">社区论坛</a></li>
+                        <li><a href="#" class="footer-link">联系我们</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>法律</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">隐私政策</a></li>
+                        <li><a href="#" class="footer-link">服务条款</a></li>
+                        <li><a href="#" class="footer-link">Cookie政策</a></li>
+                        <li><a href="#" class="footer-link">合规声明</a></li>
                     </ul>
                 </div>
             </div>
+            
             <div class="copyright">
-                <p>© 2026 Million Claw. All rights reserved.</p>
-                <p style="margin-top: 10px;">Built on OpenClaw Framework</p>
+                <p>© 2026 Million Claw. 保留所有权利�?/p>
+                <p style="margin-top: 8px; font-size: 12px;">基于 OpenClaw 框架构建 | 需要邀请码或付费使�?/p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Navigation links
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
+        // 邀请码验证
+        const VALID_INVITE_CODES = [
+            'MILLION2026',
+            'CLAWPRO',
+            'OPENAI2026',
+            'BETA-TESTER',
+            'EASYCLAW',
+            'OPENCLAW'
+        ];
+        
+        // 验证按钮点击
+        document.getElementById('verify-invite').addEventListener('click', function() {
+            verifyInviteCode();
         });
         
-        // Download button prompts
-        document.querySelectorAll('.download-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                if (!this.getAttribute('href') || this.getAttribute('href') === '#') {
-                    e.preventDefault();
-                    alert('Valid invitation code or paid version required.\n\nValid codes: MILLION2026, CLAWPRO, OPENAI2026');
-                }
-            });
-        });
-        
-        // Navbar scroll effect
-        window.addEventListener('scroll', function() {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
-            } else {
-                navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+        // 输入框回车验�?        document.getElementById('invite-code').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verifyInviteCode();
             }
         });
-    </script>
-</body>
-</html>
+        
+        // 下载按钮点击处理
+        document.getElementById('windows-download').addEventListener('click', function(e) {
+            const inviteCode = document.getElementById('invite-code').value.trim();
+            if (!inviteCode || !VALID_INVITE_CODES.includes(inviteCode.toUpperCase())) {
+                e.preventDefault();
+                showPaymentModal();
+            }
+        });
+        
+        document.getElementById('mac-download').addEventListener('click', function(e) {
+            const inviteCode = document.getElementById('invite-code').value.trim();
+            if (!inviteCode || !VALID_INVITE_CODES.includes(inviteCode.toUpperCase())) {
+                e.preventDefault();
+                showPaymentModal();
+            }
+        });
+        
+        // 验证邀请码函数
+        function verifyInviteCode() {
+            const inviteCode = document.getElementById('invite-code').value.trim();
+            const verifyBtn = document.getElementById('verify-invite');
+            const verifyText = document.getElementById('verify-text');
+            const verifyLoader = document.getElementById('verify-loader');
+            
+            if (!inviteCode) {
+                alert('请输入邀请码');
+                return;
+            }
+            
+            // 显示加载�?            verifyText.style.display = 'none';
+            verifyLoader.style.display = 'inline-block';
+            verifyBtn.disabled = true;
+            
+            // 模拟验证过程
+            setTimeout(() => {
+                verifyText.style.display = 'inline';
+                verifyLoader.style.display = 'none';
+                verifyBtn.disabled = false;
+                
+                if (VALID_INVITE_CODES.includes(inviteCode.toUpperCase())) {
+                    alert('�?邀请码验证成功！\n\n现在可以下载 Million Claw�?);
+                    // 启用下载按钮
+                    document.getElementById('windows-download').style.opacity = '1';
+                    document.getElementById('mac-download').style.opacity = '1';
+                } else {
+                    alert('�?邀请码无效或已过期。\n\n请检查邀请码或选择付费版本�?);
+                    showPaymentModal();
+                }
+            }, 1000);
+        }
+        
+        // 显示付费模态框
+        function showPaymentModal() {
+            const modalHtml = `
+                <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 2000;">
+                    <div style="background: white; padding: 40px; border-radius: 20px; max-width: 500px; width: 90%;">
+                        <h2 style="margin-bottom: 20px; color: #2563eb;">选择付费方案</h2>
+                        <p style="margin-bottom: 30px; color: #6b7280;">没有邀请码？选择付费方案立即使用 Million Claw�?/p>
+                        
+                        <div style="background: #f3f4f6; padding: 24px; border-radius: 16px; margin-bottom: 20px;">
+                            <h3 style="margin-bottom: 12px; color: #1f2937;">专业�?- ¥199/�?/h3>
+                            <ul style="color: #6b7280; margin-bottom: 20px; padding-left: 20px;">
+                                <li>所有AI功能无限�?/li>
+                                <li>高级自动化工作流</li>
+                                <li>优先技术支�?/li>
+                                <li>团队协作功能</li>
+                                <li>API访问权限</li>
+                            </
