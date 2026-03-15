@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Million Claw - 基于OpenClaw的AI智能体</title>
+    <title>Million Claw - AI智能桌面助手</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --secondary: #10b981;
+            --blue: #2563eb;
+            --green: #10b981;
             --dark: #1f2937;
             --light: #f9fafb;
-            --gray: #6b7280;
         }
         
         * {
@@ -33,7 +31,7 @@
             padding: 0 20px;
         }
         
-        /* 导航栏 */
+        /* 导航 */
         .navbar {
             position: fixed;
             top: 0;
@@ -54,7 +52,7 @@
         .logo {
             font-size: 24px;
             font-weight: bold;
-            color: var(--primary);
+            color: var(--blue);
             text-decoration: none;
         }
         
@@ -70,11 +68,11 @@
         }
         
         .nav-link:hover {
-            color: var(--primary);
+            color: var(--blue);
         }
         
         .nav-button {
-            background: var(--primary);
+            background: var(--blue);
             color: white;
             padding: 10px 24px;
             border-radius: 8px;
@@ -82,7 +80,7 @@
             font-weight: 500;
         }
         
-        /* 英雄区域 */
+        /* 主区域 */
         .hero {
             padding: 150px 0 100px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -130,7 +128,7 @@
         .feature-icon {
             width: 60px;
             height: 60px;
-            background: var(--primary);
+            background: var(--blue);
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -145,7 +143,7 @@
             margin-bottom: 10px;
         }
         
-        /* 下载区域 */
+        /* 下载 */
         .download {
             padding: 100px 0;
             text-align: center;
@@ -159,7 +157,7 @@
         }
         
         .download-btn {
-            background: var(--primary);
+            background: var(--blue);
             color: white;
             padding: 15px 30px;
             border-radius: 8px;
@@ -188,7 +186,7 @@
             text-align: center;
             padding-top: 30px;
             border-top: 1px solid rgba(255,255,255,0.1);
-            color: var(--gray);
+            color: #9ca3af;
         }
         
         @media (max-width: 768px) {
@@ -208,7 +206,7 @@
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
+    <!-- 导航 -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="#" class="logo">Million Claw</a>
@@ -221,7 +219,7 @@
         </div>
     </nav>
 
-    <!-- 英雄区域 -->
+    <!-- 主区域 -->
     <section class="hero" id="download">
         <div class="container">
             <h1>基于 OpenClaw 框架打造</h1>
@@ -290,7 +288,7 @@
                     <i class="fab fa-apple"></i> macOS 版本
                 </a>
             </div>
-            <p style="margin-top: 20px; color: var(--gray); font-size: 14px;">
+            <p style="margin-top: 20px; color: #6b7280; font-size: 14px;">
                 需要邀请码或付费使用。有效邀请码：MILLION2026, CLAWPRO, OPENAI2026
             </p>
         </div>
@@ -329,7 +327,7 @@
     </footer>
 
     <script>
-        // 简单的交互
+        // 导航链接点击
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
